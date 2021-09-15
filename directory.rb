@@ -37,8 +37,12 @@ def input_students
   name = gets.chomp
   # while the name is not empty, repeat this code:
   while !name.empty? do
-    students << {name: name, cohort: :november}
-    puts "Now we have #{students.count} students"
+    if name.split("").length < 12
+      students << {name: name, cohort: :november}
+      puts "Now we have #{students.count} students"
+    else
+      puts "Please enter a name less that 12 characters"
+    end
     name = gets.chomp
   end
   # return the array of students
