@@ -19,8 +19,18 @@ def print_header
 end
 
 def print(students)
-  students.each_with_index do |student, index|
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  # students.each_with_index do |student, index|
+  #   puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  # end
+  print_array = []
+  students.each do |student|
+    print_array << student
+  end
+  count = 1
+  while print_array.length > 0 do
+    puts "#{count}. #{print_array.first[:name]} (#{print_array.first[:cohort]} cohort)"
+    print_array.delete_at(0)
+    count+=1
   end
 end
 
