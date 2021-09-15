@@ -41,13 +41,29 @@ end
  
 def input_students
   name = " "
-  students = []  
+  students = []
+  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   while !name.empty? do
-    puts "Please enter the name of the student"
-    name = gets.chomp
-    if name.empty?
-      break
+    puts "Please enter the name and cohort of the student in the format: Name, Month"
+    name_and_cohort = gets.chomp
+    name = name_and_cohort.split(", ")[0]
+    cohort = name_and_cohort.split(", ")[1]
+    if name_and_cohort.empty?
+        break
     end
+    
+    loop do
+      if !months.include?(cohort)
+        puts "Error! #{cohort} is not a valid month. Please check your spelling and try again!"
+        puts "Please enter the name and cohort of the student in the format: Name, Month"
+        name_and_cohort = gets.chomp
+        name = name_and_cohort.split(", ")[0]
+        cohort = name_and_cohort.split(", ")[1]
+      else
+        break
+      end
+    end
+    
     puts "Please enter any hobbies that the student has"
     hobby = gets.chomp
     puts "Please enter student country of birth"
@@ -56,7 +72,7 @@ def input_students
     height = gets.chomp
     
     if name.split("").length < 12
-      students << {name: name, hobby: hobby, birth: birth, height: height, cohort: :november}
+      students << {name: name, hobby: hobby, birth: birth, height: height, cohort: cohort.to_sym}
       puts "Now we have #{students.count} students"
     else
       puts "Please enter a name less that 12 characters"
