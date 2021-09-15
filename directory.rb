@@ -29,6 +29,7 @@ def print(students)
   count = 1
   while print_array.length > 0 do
     puts "#{count}. #{print_array.first[:name]} (#{print_array.first[:cohort]} cohort)"
+    puts "Special info: Likes #{print_array.first[:hobby]}, was born in #{print_array.first[:birth]} and is #{print_array.first[:height]} tall"
     print_array.delete_at(0)
     count+=1
   end
@@ -39,21 +40,27 @@ def print_footer(names)
 end
  
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-  # creates an empty array
-  students = []
-  # gets the first name
-  name = gets.chomp
-  # while the name is not empty, repeat this code:
+  name = " "
+  students = []  
   while !name.empty? do
+    puts "Please enter the name of the student"
+    name = gets.chomp
+    if name.empty?
+      break
+    end
+    puts "Please enter any hobbies that the student has"
+    hobby = gets.chomp
+    puts "Please enter student country of birth"
+    birth = gets.chomp
+    puts "please enter student height"
+    height = gets.chomp
+    
     if name.split("").length < 12
-      students << {name: name, cohort: :november}
+      students << {name: name, hobby: hobby, birth: birth, height: height, cohort: :november}
       puts "Now we have #{students.count} students"
     else
       puts "Please enter a name less that 12 characters"
     end
-    name = gets.chomp
   end
   # return the array of students
   students
