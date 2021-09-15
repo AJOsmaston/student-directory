@@ -14,8 +14,8 @@
 # ]
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy".center(100)
+  puts "-------------".center(100)
 end
 
 def print(students)
@@ -28,15 +28,15 @@ def print(students)
   end
   count = 1
   while print_array.length > 0 do
-    puts "#{count}. #{print_array.first[:name]} (#{print_array.first[:cohort]} cohort)"
-    puts "Special info: Likes #{print_array.first[:hobby]}, was born in #{print_array.first[:birth]} and is #{print_array.first[:height]} tall"
+    puts "#{count}. #{print_array.first[:name]} (#{print_array.first[:cohort]} cohort)".center(100)
+    puts "Special info: Likes #{print_array.first[:hobby]}, was born in #{print_array.first[:birth]} and is #{print_array.first[:height]} tall".center(100)
     print_array.delete_at(0)
     count+=1
   end
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+  puts "Overall, we have #{names.count} great students".center(100)
 end
  
 def input_students
