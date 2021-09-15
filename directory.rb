@@ -45,7 +45,25 @@ def input_students
   students
 end
 
+def select_letter(input)
+  puts "Please enter a letter to filter the students:"
+  letter = gets.chomp
+  student_array = []
+  
+  input.each do |student|
+    if letter[0] == student[:name][0]
+      student_array << student
+    end
+  end
+  student_array
+end
+
 students = input_students
 print_header
 print(students)
 print_footer(students)
+
+student_array = select_letter(students)
+print_header
+print(student_array)
+print_footer(student_array)
