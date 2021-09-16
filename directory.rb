@@ -1,12 +1,14 @@
+@students = [] # an empty array accessable to all methods
+
 def print_header
   puts "The students of Villains Academy".center(100)
   puts "-------------".center(100)
 end
 
-def print(students)
+def print_student_list
 
   students_by_cohort = {}
-  students.each do |student|
+  @students.each do |student|
     cohort = student[:cohort]
     
     if students_by_cohort[cohort] == nil
@@ -22,18 +24,14 @@ def print(students)
       puts "#{name}".center(100)
     end
   end
-  
-  return students
-  
 end
 
-def print_footer(names)
-  puts "Overall, we have #{names.count} great students".center(100)
+def print_footer
+  puts "Overall, we have #{@students.count} great students".center(100)
 end
  
 def input_students
   name = " "
-  students = []
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   while !name.empty? do
     puts "Please enter the name and cohort of the student in the format: Name, Month"
@@ -60,45 +58,48 @@ def input_students
     end
     
     if name.split("").length < 12
-      puts "Please enter any hobbies that the student has"
-      hobby = gets.chomp
-      puts "Please enter student country of birth"
-      birth = gets.chomp
-      puts "Please enter student height"
-      height = gets.chomp
-      students << {name: name, hobby: hobby, birth: birth, height: height, cohort: cohort.to_sym}
-      if students.count == 1
+      @students << {name: name, cohort: cohort.to_sym}
+      if @students.count == 1
         puts "Now we have 1 student"
       else
-        puts "Now we have #{students.count} students"
+        puts "Now we have #{@students.count} students"
       end
     else
       puts "Error: Name must be less than 12 characters"
     end
   end
-  # return the array of students
-  students
 end
 
-def interactive_menu
-  students = []
-  loop do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
-    selection = gets.chomp
-    case selection
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
+
+def show_students
+  print_header
+  print_student_list
+  print_footer
+end
+
+def process(selection)
+  case selection
     when "1"
       students = input_students
     when "2"
-      print_header
-      print(students)
-      print_footer(students)
+      show_students
     when "9"
       exit
     else
       puts "I don't know what you meant, try again!"
-    end
+  end
+end
+  
+
+def interactive_menu()
+  loop do
+    print_menu
+    process(gets.chomp)
   end
 end
 
