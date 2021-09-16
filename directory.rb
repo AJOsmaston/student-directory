@@ -14,29 +14,35 @@
 # ]
 
 def print_header
-  puts "The students of Villains Academy".center(100)
-  puts "-------------".center(100)
+  puts "The students of Villains Academy".center(200)
+  puts "-------------".center(200)
 end
 
 def print(students)
   # students.each_with_index do |student, index|
   #   puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
   # end
-  print_array = []
+  
+  students_by_cohort = {}
   students.each do |student|
-    print_array << student
+    cohort = student[:cohort]
+    
+    if students_by_cohort[cohort] == nil
+      students_by_cohort[cohort] = []
+    end
+    students_by_cohort[cohort].push(student[:name])
   end
-  count = 1
-  while print_array.length > 0 do
-    puts "#{count}. #{print_array.first[:name]} (#{print_array.first[:cohort]} cohort)".center(100)
-    puts "Special info: Likes #{print_array.first[:hobby]}, was born in #{print_array.first[:birth]} and is #{print_array.first[:height]} tall".center(100)
-    print_array.delete_at(0)
-    count+=1
+  
+  students_by_cohort.each do |month, names|
+    puts "#{month} Cohort".center(200)
+    names.each do |name| 
+      puts "#{name}".center(200)
+    end
   end
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students".center(100)
+  puts "Overall, we have #{names.count} great students".center(200)
 end
  
 def input_students
@@ -85,25 +91,25 @@ def input_students
   students
 end
 
-def select_letter(input)
-  puts "Please enter a letter to filter the students:"
-  letter = gets.chomp
-  student_array = []
+# def select_letter(input)
+#   puts "Please enter a letter to filter the students:"
+#   letter = gets.chomp
+#   student_array = []
   
-  input.each do |student|
-    if letter[0] == student[:name][0]
-      student_array << student
-    end
-  end
-  student_array
-end
+#   input.each do |student|
+#     if letter[0] == student[:name][0]
+#       student_array << student
+#     end
+#   end
+#   student_array
+# end
 
 students = input_students
 print_header
 print(students)
 print_footer(students)
 
-student_array = select_letter(students)
-print_header
-print(student_array)
-print_footer(student_array)
+# student_array = select_letter(students)
+# print_header
+# print(student_array)
+# print_footer(student_array)
