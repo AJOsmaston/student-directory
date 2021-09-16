@@ -53,7 +53,10 @@ def input_students
     end
     
     loop do
-      if !months.include?(cohort)
+      
+      if cohort == nil || cohort.length == 0
+        cohort = "September"
+      elsif !months.include?(cohort)
         puts "Error! #{cohort} is not a valid month. Please check your spelling and try again!"
         puts "Please enter the name and cohort of the student in the format: Name, Month"
         name_and_cohort = gets.chomp
@@ -68,7 +71,7 @@ def input_students
     hobby = gets.chomp
     puts "Please enter student country of birth"
     birth = gets.chomp
-    puts "please enter student height"
+    puts "Please enter student height"
     height = gets.chomp
     
     if name.split("").length < 12
