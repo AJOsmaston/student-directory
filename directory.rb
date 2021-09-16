@@ -33,12 +33,10 @@ end
 def input_students
   name = " "
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-  while !name.empty? do
+  while name != nil do
     puts "Please enter the name and cohort of the student in the format: Name, Month"
-    name_and_cohort = gets.chomp
-    name = name_and_cohort.split(", ")[0]
-    cohort = name_and_cohort.split(", ")[1]
-    if name_and_cohort.empty?
+    name, cohort = gets.chomp.split(", ")
+    if name == nil && cohort == nil
         break
     end
     
@@ -49,9 +47,7 @@ def input_students
       elsif !months.include?(cohort)
         puts "Error! #{cohort} is not a valid month. Please check your spelling and try again!"
         puts "Please enter the name and cohort of the student in the format: Name, Month"
-        name_and_cohort = gets.chomp
-        name = name_and_cohort.split(", ")[0]
-        cohort = name_and_cohort.split(", ")[1]
+        name, cohort = gets.chomp.split(", ")
       else
         break
       end
@@ -89,6 +85,15 @@ def save_students
     student_data = [student[:name], student[:cohort]]
     csv_line = student_data.join(",")
     file.puts csv_line
+  end
+  file.close
+end
+
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+    name, cohort = line.chomp.split(",")
+    @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
 end
