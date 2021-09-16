@@ -14,8 +14,8 @@
 # ]
 
 def print_header
-  puts "The students of Villains Academy".center(200)
-  puts "-------------".center(200)
+  puts "The students of Villains Academy".center(100)
+  puts "-------------".center(100)
 end
 
 def print(students)
@@ -33,17 +33,20 @@ def print(students)
     students_by_cohort[cohort].push(student[:name])
   end
   
-  students_by_cohort.each do |month, names|
-    puts "#{month} Cohort".center(200)
+  
+  students_by_cohort.sort.each do |month, names|
+    puts "#{month} Cohort".center(100)
     names.each do |name| 
-      puts "#{name}".center(200)
+      puts "#{name}".center(100)
     end
   end
-  students
+  
+  return students
+  
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students".center(200)
+  puts "Overall, we have #{names.count} great students".center(100)
 end
  
 def input_students
@@ -74,14 +77,13 @@ def input_students
       end
     end
     
-    puts "Please enter any hobbies that the student has"
-    hobby = gets.chomp
-    puts "Please enter student country of birth"
-    birth = gets.chomp
-    puts "Please enter student height"
-    height = gets.chomp
-    
     if name.split("").length < 12
+      puts "Please enter any hobbies that the student has"
+      hobby = gets.chomp
+      puts "Please enter student country of birth"
+      birth = gets.chomp
+      puts "Please enter student height"
+      height = gets.chomp
       students << {name: name, hobby: hobby, birth: birth, height: height, cohort: cohort.to_sym}
       if students.count == 1
         puts "Now we have 1 student"
@@ -89,7 +91,7 @@ def input_students
         puts "Now we have #{students.count} students"
       end
     else
-      puts "Please enter a name less that 12 characters"
+      puts "Error: Name must be less than 12 characters"
     end
   end
   # return the array of students
