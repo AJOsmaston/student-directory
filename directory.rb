@@ -39,6 +39,7 @@ def print(students)
       puts "#{name}".center(200)
     end
   end
+  students
 end
 
 def print_footer(names)
@@ -82,7 +83,11 @@ def input_students
     
     if name.split("").length < 12
       students << {name: name, hobby: hobby, birth: birth, height: height, cohort: cohort.to_sym}
-      puts "Now we have #{students.count} students"
+      if students.count == 1
+        puts "Now we have 1 student"
+      else
+        puts "Now we have #{students.count} students"
+      end
     else
       puts "Please enter a name less that 12 characters"
     end
