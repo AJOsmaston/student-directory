@@ -1,5 +1,6 @@
 @students = [] # an empty array accessable to all methods
-@students_by_cohort = {}
+@students_by_cohort = {} # an empty hash accessable to all methods
+@name = " "
 
 def print_header
   puts "The students of Villains Academy".center(100)
@@ -31,12 +32,11 @@ def print_footer
 end
  
 def input_students
-  name = " "
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-  while name != nil do
+  while @name != nil do
     puts "Please enter the name and cohort of the student in the format: Name, Month"
-    name, cohort = STDIN.gets.chomp.split(", ")
-    if name == nil && cohort == nil
+    @name, cohort = STDIN.gets.chomp.split(", ")
+    if @name == nil && cohort == nil
         break
     end
     
@@ -47,14 +47,14 @@ def input_students
       elsif !months.include?(cohort)
         puts "Error! #{cohort} is not a valid month. Please check your spelling and try again!"
         puts "Please enter the name and cohort of the student in the format: Name, Month"
-        name, cohort = STDIN.gets.chomp.split(", ")
+        @name, cohort = STDIN.gets.chomp.split(", ")
       else
         break
       end
     end
     
-    if name.split("").length < 12
-      @students << {name: name, cohort: cohort.to_sym}
+    if @name.split("").length < 12
+      @students << {name: @name, cohort: cohort.to_sym}
       if @students.count == 1
         puts "Now we have 1 student"
       else
@@ -115,16 +115,16 @@ end
 def process(selection)
   case selection
     when "1"
-      puts "selected: input students"
+      puts "Selected: input students"
       input_students
     when "2"
-      puts "selected: show students"
+      puts "Selected: show students"
       show_students
     when "3"
-      puts "selected: save students"
+      puts "Selected: save students"
       save_students
     when "4"
-      puts "selected: load students"
+      puts "Selected: load students"
       if !@students.empty?
         @students = []
       end
