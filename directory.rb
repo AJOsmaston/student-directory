@@ -108,13 +108,6 @@ end
 def save_students
   puts "Please enter the file name to save:"
   filename = STDIN.gets.chomp
-  # File.open(filename, "w") do |file|
-    # @students.each do |student|
-    #   student_data = [student[:name], student[:cohort]]
-    #   csv_line = student_data.join(",")
-    #   file.puts csv_line
-    # end
-  # end
   CSV.open(filename, "wb") do |csv|
     @students.each do |student|
       csv << [student[:name], student[:cohort]]
