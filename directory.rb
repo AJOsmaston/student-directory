@@ -1,4 +1,5 @@
 @students = [] # an empty array accessable to all methods
+@students_by_cohort = {}
 
 def print_header
   puts "The students of Villains Academy".center(100)
@@ -6,23 +7,22 @@ def print_header
 end
 
 def print_student_list
-
-  students_by_cohort = {}
-  @students.each do |student|
-    cohort = student[:cohort]
-    
-    if students_by_cohort[cohort] == nil
-      students_by_cohort[cohort] = []
-    end
-    students_by_cohort[cohort].push(student[:name])
-  end
-  
-  
-  students_by_cohort.sort.each do |month, names|
+  @students_by_cohort.sort.each do |month, names|
     puts "#{month} Cohort".center(100)
     names.each do |name| 
       puts "#{name}".center(100)
     end
+  end
+end
+
+def group_students_cohort
+  @students_by_cohort.clear()
+  @students.each do |student|
+    cohort = student[:cohort]
+    if @students_by_cohort[cohort] == nil
+      @students_by_cohort[cohort] = []
+    end
+    @students_by_cohort[cohort].push(student[:name])
   end
 end
 
@@ -76,6 +76,7 @@ end
 
 def show_students
   print_header
+  group_students_cohort
   print_student_list
   print_footer
 end
@@ -91,12 +92,12 @@ def save_students
 end
 
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
-    @students << {name: name, cohort: cohort.to_sym}
+    file = File.open(filename, "r")
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(",")
+      @students << {name: name, cohort: cohort.to_sym}
+    file.close
   end
-  file.close
 end
 
 def try_load_students
@@ -124,6 +125,9 @@ def process(selection)
       save_students
     when "4"
       puts "selected: load students"
+      if !@students.empty?
+        @students = []
+      end
       load_students
     when "9"
       exit
