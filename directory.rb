@@ -32,6 +32,10 @@ def print_footer
   puts "Overall, we have #{@students.count} great students".center(100)
 end
 
+def add_to_students
+  @students << {name: @name, cohort: @cohort.to_sym}
+end
+
 def cohort_check(cohort)
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   if cohort == nil || cohort.length == 0
@@ -75,7 +79,7 @@ def input_control
       break
     else
       if length_check(@name) == "pass" && cohort_check(@cohort) == "pass"
-        @students << {name: @name, cohort: @cohort.to_sym}
+        add_to_students
         pass_text
       end
     end
@@ -112,7 +116,7 @@ def load_students(filename = "students.csv")
     file = File.open(filename, "r")
     file.readlines.each do |line|
       @name, @cohort = line.chomp.split(",")
-      @students << {name: @name, cohort: @cohort.to_sym}
+      add_to_students
     file.close
   end
 end
