@@ -1,6 +1,7 @@
 @students = [] # an empty array accessable to all methods
 @students_by_cohort = {} # an empty hash accessable to all methods
 @name = " "
+@cohort = "September"
 
 def print_header
   puts "The students of Villains Academy".center(100)
@@ -19,51 +20,67 @@ end
 def group_students_cohort
   @students_by_cohort.clear()
   @students.each do |student|
-    cohort = student[:cohort]
-    if @students_by_cohort[cohort] == nil
-      @students_by_cohort[cohort] = []
+    @cohort = student[:cohort]
+    if @students_by_cohort[@cohort] == nil
+      @students_by_cohort[@cohort] = []
     end
-    @students_by_cohort[cohort].push(student[:name])
+    @students_by_cohort[@cohort].push(student[:name])
   end
 end
 
 def print_footer
   puts "Overall, we have #{@students.count} great students".center(100)
 end
+
+def cohort_check(cohort)
+  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  if cohort == nil || cohort.length == 0
+    @cohort = "September"
+    "pass"
+  elsif !months.include?(cohort)
+    puts "Error! #{cohort} is not a valid month. Please check your spelling and try again!"
+  else
+    "pass"
+  end
+end
+
+def length_check(name)
+  if name.split("").length < 12
+    "pass"
+  else
+      puts "Error: Name must be less than 12 characters"
+  end
+end
  
 def input_students
-  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-  while @name != nil do
     puts "Please enter the name and cohort of the student in the format: Name, Month"
-    @name, cohort = STDIN.gets.chomp.split(", ")
-    if @name == nil && cohort == nil
-        break
-    end
-    
-    loop do
-      
-      if cohort == nil || cohort.length == 0
-        cohort = "September"
-      elsif !months.include?(cohort)
-        puts "Error! #{cohort} is not a valid month. Please check your spelling and try again!"
-        puts "Please enter the name and cohort of the student in the format: Name, Month"
-        @name, cohort = STDIN.gets.chomp.split(", ")
-      else
-        break
-      end
-    end
-    
-    if @name.split("").length < 12
-      @students << {name: @name, cohort: cohort.to_sym}
-      if @students.count == 1
-        puts "Now we have 1 student"
-      else
-        puts "Now we have #{@students.count} students"
-      end
+    @name, @cohort = STDIN.gets.chomp.split(", ")
+end
+
+def pass_text
+  if @students.count == 1
+      puts "Now we have 1 student"
+      "pass"
+  else
+      puts "Now we have #{@students.count} students"
+      "pass"
+  end
+end
+
+def input_control
+  @name = " "
+  loop do
+    input_students
+    if @name == nil && @cohort == nil
+      break
     else
-      puts "Error: Name must be less than 12 characters"
+      if length_check(@name) == "pass" && cohort_check(@cohort) == "pass"
+        @students << {name: @name, cohort: @cohort.to_sym}
+        pass_text
+      end
     end
   end
+  
 end
 
 def print_menu
@@ -94,8 +111,8 @@ end
 def load_students(filename = "students.csv")
     file = File.open(filename, "r")
     file.readlines.each do |line|
-      name, cohort = line.chomp.split(",")
-      @students << {name: name, cohort: cohort.to_sym}
+      @name, @cohort = line.chomp.split(",")
+      @students << {name: @name, cohort: @cohort.to_sym}
     file.close
   end
 end
@@ -116,7 +133,7 @@ def process(selection)
   case selection
     when "1"
       puts "Selected: input students"
-      input_students
+      input_control
     when "2"
       puts "Selected: show students"
       show_students
