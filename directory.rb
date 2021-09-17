@@ -35,7 +35,7 @@ def input_students
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
   while name != nil do
     puts "Please enter the name and cohort of the student in the format: Name, Month"
-    name, cohort = gets.chomp.split(", ")
+    name, cohort = STDIN.gets.chomp.split(", ")
     if name == nil && cohort == nil
         break
     end
@@ -47,7 +47,7 @@ def input_students
       elsif !months.include?(cohort)
         puts "Error! #{cohort} is not a valid month. Please check your spelling and try again!"
         puts "Please enter the name and cohort of the student in the format: Name, Month"
-        name, cohort = gets.chomp.split(", ")
+        name, cohort = STDIN.gets.chomp.split(", ")
       else
         break
       end
@@ -90,8 +90,8 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
     @students << {name: name, cohort: cohort.to_sym}
@@ -99,15 +99,31 @@ def load_students
   file.close
 end
 
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exist?(filename)
+    load_students(filename)
+      puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
+end
+
 def process(selection)
   case selection
     when "1"
+      puts "selected: input students"
       input_students
     when "2"
+      puts "selected: show students"
       show_students
     when "3"
+      puts "selected: save students"
       save_students
     when "4"
+      puts "selected: load students"
       load_students
     when "9"
       exit
@@ -119,8 +135,9 @@ end
 def interactive_menu()
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
+load_students()
 interactive_menu
