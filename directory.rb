@@ -1,3 +1,5 @@
+require 'csv'
+
 @students = [] # an empty array accessable to all methods
 @students_by_cohort = {} # an empty hash accessable to all methods
 @name = " "
@@ -106,21 +108,24 @@ end
 def save_students
   puts "Please enter the file name to save:"
   filename = STDIN.gets.chomp
-  File.open(filename, "w") do |file|
+  # File.open(filename, "w") do |file|
+    # @students.each do |student|
+    #   student_data = [student[:name], student[:cohort]]
+    #   csv_line = student_data.join(",")
+    #   file.puts csv_line
+    # end
+  # end
+  CSV.open(filename, "wb") do |csv|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+      csv << [student[:name], student[:cohort]]
     end
   end
 end
 
 def load_students(filename = "students.csv")
-    File.open(filename, "r") do |item|
-      item.readlines.each do |line|
-        @name, @cohort = line.chomp.split(",")
-        add_to_students
-      end
+  CSV.foreach(filename) do |line|
+    @name, @cohort = line
+    add_to_students
   end
 end
 
